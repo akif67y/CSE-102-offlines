@@ -1,38 +1,60 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int *takearray()
+int *takearray(int k)
 {
-    int *temp = (int *)malloc(10001 * sizeof(int));
+    int *temp = (int *)malloc(k * sizeof(int));
     return temp;
 }
+
 int main()
 {
     int n;
+    int *original;
+    int max = -1;
+    int max2 = 0;
+
     scanf("%d", &n);
+    original = takearray(n);
+
+
+    for (int i = 0; i < n; i++)
+    {
+        scanf("%d", (original + i));
+        if (*(original + i) > max)
+            max = *(original + i);
+    }
+
     int *freq;
-    freq = takearray();
-    for (int i = 0; i < 10001; i++)
+    freq = takearray(max + 1);
+
+
+    for (int i = 0; i < max + 1; i++)
     {
         *(freq + i) = 0;
     }
+
+
     for (int i = 0; i < n; i++)
     {
-        int t;
-        scanf("%d", &t);
-        *(freq + t) = *(freq + t) + 1;
+        *(freq + *(original + i)) = *(freq + *(original + i)) + 1;
     }
-    int max = 0;
-    for (int i = 0; i < 10001; i++)
+
+    free(original);
+    
+
+
+    for (int i = 0; i < max + 1; i++)
     {
-        if (*(freq + i) > max)
+        if (*(freq + i) > max2)
         {
-            max = *(freq + i);
+            max2 = *(freq + i);
         }
     }
-    for (int i = 0; i < 10001; i++)
+    
+    for (int i = 0; i < max + 1; i++)
     {
-        if (*(freq + i) == max)
+        if (*(freq + i) == max2)
         {
             printf("%d ", i);
         }
